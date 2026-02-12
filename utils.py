@@ -111,8 +111,10 @@ def add_new_metrics(
     # Create a DataFrame from the new row
     new_row_df = pd.DataFrame([new_row_dict])
     
-    # Concatenate and RETURN the result
-    updated_df = pd.concat([metrics_df, new_row_df], ignore_index=True)
+    if metrics_df.empty:
+        updated_df = new_row_df
+    else:
+        updated_df = pd.concat([metrics_df, new_row_df], ignore_index=True)
     
     return updated_df
 
