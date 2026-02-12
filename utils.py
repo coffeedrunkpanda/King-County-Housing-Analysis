@@ -1,8 +1,110 @@
+
+
+import pandas as pd
 import numpy as np
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+from sklearn.metrics import (r2_score,
+                             mean_absolute_error,
+                             mean_absolute_percentage_error,
+                             mean_squared_error,
+                             root_mean_squared_error)
+
+
+from sklearn.base import BaseEstimator
+from typing import SupportsFloat, Union, Dict
+
+# Define types for clearer code
+ArrayLike = Union[pd.DataFrame, pd.Series, np.ndarray]
+
+
+def adjusted_r2(y_true: ArrayLike, y_pred: ArrayLike, X: ArrayLike) -> float:
+    """
+    Calculate Adjusted R2, handling both Arrays and DataFrames.
+    """
+    r2 = r2_score(y_true, y_pred)
+    n = len(y_true)
+    
+    # Handle X shape safely (whether it's a DataFrame or Numpy array)
+    if hasattr(X, 'shape'):
+        p = X.shape[1] if len(X.shape) > 1 else 1
+    else:
+        p = 1 # Fallback for 1D lists
+        
+    return 1 - (1 - r2) * (n - 1) / (n - p - 1)
+
+def _get_metrics(
+    trained_model: BaseEstimator, 
+    X: ArrayLike, 
+    y: ArrayLike, 
+    split: str = "train", 
+    comments: str = "Baseline model"
+) -> Dict[str, Union[str, float]]:
+    """
+    Internal function to calculate metrics for a single split.
+    
+    Args:
+        trained_model: A fitted sklearn model.
+        X: Feature matrix (DataFrame or Numpy Array).
+        y: Target vector (Series or Numpy Array).
+        split: Label for the data split (e.g., 'Train', 'Test').
+        comments: User notes.
+
+    Returns:
+        dict: A dictionary containing all calculated metrics.
+    """
+    # Generate predictions
+    y_pred = trained_model.predict(X)
+
+    # Calculate metrics
+    new_row = {
+        "Model": trained_model.__class__.__name__,
+        "Split": split,
+        "R2": np.round(r2_score(y, y_pred), 4),
+        "Adjusted_R2": np.round(adjusted_r2(y, y_pred, X), 4),
+        "MAE": np.round(mean_absolute_error(y, y_pred), 4),
+        "MAPE": np.round(mean_absolute_percentage_error(y, y_pred), 4),
+        "RMSE": np.round(root_mean_squared_error(y, y_pred), 4),
+        "Comments": comments
+    }
+
+    return new_row
+
+def add_new_metrics(
+    metrics_df: pd.DataFrame,
+    trained_model: BaseEstimator,
+    X: ArrayLike,
+    y: ArrayLike,
+    split: str = "train",
+    comments: str = "Baseline model"
+) -> pd.DataFrame:
+    """
+    Calculates metrics and appends them to the tracking DataFrame.
+    
+    Args:
+        metrics_df: The existing DataFrame to update.
+        trained_model: A fitted sklearn model.
+        X: Feature matrix.
+        y: Target vector.
+        split: "Train" or "Test".
+        comments: Notes about this run.
+        
+    Returns:
+        pd.DataFrame: The updated DataFrame with the new row.
+    """
+    
+    # Get the metrics dictionary
+    new_row_dict = _get_metrics(trained_model, X, y, split, comments)
+    
+    # Create a DataFrame from the new row
+    new_row_df = pd.DataFrame([new_row_dict])
+    
+    # Concatenate and RETURN the result
+    updated_df = pd.concat([metrics_df, new_row_df], ignore_index=True)
+    
+    return updated_df
 
 def generate_heatmap(X):
     # 1. Calculate correlation
@@ -33,7 +135,6 @@ def generate_heatmap(X):
 
 
     from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
-from typing import SupportsFloat
 
 def get_r_squared(y_train, y_test, y_pred_train, y_pred_test):
     """Get the r2 for train and test and print the values.
@@ -88,7 +189,6 @@ def get_mae(y_train, y_test, y_pred_train, y_pred_test):
 
     print_metrics("MSE", mae_train, mae_test)
     return (mae_train, mae_test)
-
 
 def print_metrics(metric_name:str, train_score:SupportsFloat, test_score:SupportsFloat):
     string = f"""
