@@ -35,6 +35,16 @@ def adjusted_r2(y_true: ArrayLike, y_pred: ArrayLike, X: ArrayLike) -> float:
         
     return 1 - (1 - r2) * (n - 1) / (n - p - 1)
 
+def create_metrics_df():
+    """Create the dataframe to store the metrics
+
+    Returns:
+        pd.DataFrame: The empty metrics DataFrame.
+    """    
+    columns = ["Model","Split", "R2", "Adjusted_R2", "MAE", "RMSE", "MAPE","Comments"]
+    metrics_df = pd.DataFrame(columns=columns)
+    return metrics_df
+
 def _get_metrics(
     trained_model: BaseEstimator, 
     X: ArrayLike, 
