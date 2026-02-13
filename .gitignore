@@ -1,0 +1,8 @@
+Data/
+Images/
+
+.venv
+__pycache__
+
+Notes.md
+.DS_Store
