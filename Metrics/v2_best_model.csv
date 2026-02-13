@@ -1,0 +1,7 @@
+Model,Split,R2,Adjusted_R2,MAE,MAPE,RMSE,Comments
+RandomForestRegressor,train,0.9924,0.9924,16516.5529,0.0343,32219.5225,"Best parameters: {'min_samples_split': 5, 'min_samples_leaf': 2, 'max_features': 'log2', 'max_depth': None, 'bootstrap': False}"
+RandomForestRegressor,test,0.9355,0.9352,60168.2627,0.1234,91328.2004,"Best parameters: {'min_samples_split': 5, 'min_samples_leaf': 2, 'max_features': 'log2', 'max_depth': None, 'bootstrap': False}"
+XGBRegressor,train,0.9693,0.9693,45770.7327,0.1007,64638.048,"Best parameters: {'subsample': 0.6, 'n_estimators': 1000, 'min_child_weight': 10, 'max_depth': 5, 'learning_rate': 0.05, 'gamma': 0.5, 'colsample_bytree': 0.5}"
+XGBRegressor,test,0.9357,0.9355,58589.7346,0.1174,91140.137,"Best parameters: {'subsample': 0.6, 'n_estimators': 1000, 'min_child_weight': 10, 'max_depth': 5, 'learning_rate': 0.05, 'gamma': 0.5, 'colsample_bytree': 0.5}"
+GradientBoostingRegressor,train,0.9742,0.9741,42373.1298,0.0948,59316.4161,"Best parameters: {'subsample': 0.8, 'n_estimators': 500, 'min_samples_split': 10, 'min_samples_leaf': 4, 'max_features': 'log2', 'max_depth': 5, 'learning_rate': 0.1}"
+GradientBoostingRegressor,test,0.9367,0.9365,59336.1257,0.1191,90423.8246,"Best parameters: {'subsample': 0.8, 'n_estimators': 500, 'min_samples_split': 10, 'min_samples_leaf': 4, 'max_features': 'log2', 'max_depth': 5, 'learning_rate': 0.1}"
