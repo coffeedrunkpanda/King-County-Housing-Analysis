@@ -28,7 +28,7 @@
 
 A comprehensive machine learning project to predict house prices in King County, Washington, using multiple regression algorithms, feature engineering techniques and outlier flagging. 
 
-This project analyzes the King County House Sales dataset containing 21,613 records and 21 features to build accurate price prediction models. The workflow follows a systematic approach from baseline modeling through feature engineering to hyperparameter optimization. 
+This project analyzes the [King County House Sales dataset](https://www.kaggle.com/datasets/minasameh55/king-country-houses-aa) containing 21,613 records and 21 features to build accurate price prediction models. The workflow follows a systematic approach from baseline modeling through feature engineering to hyperparameter optimization. 
 
 ### 📊 Dataset Description
 
