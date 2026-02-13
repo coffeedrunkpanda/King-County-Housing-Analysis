@@ -1,0 +1,13 @@
+,Model,Split,R2,Adjusted_R2,MAE,MAPE,RMSE,Comments
+0,RandomForestRegressor,train,0.9879,0.9879,22769.7215,0.0456,40566.2303,"Outliers flagging, no normalization."
+1,RandomForestRegressor,test,0.9322,0.9319,59863.8409,0.1203,93599.4998,"Outliers flagging, no normalization."
+2,RandomForestRegressor,train,0.9826,0.9826,23185.3777,0.0475,37273.0054,"Removing top 1%, no normalization."
+3,RandomForestRegressor,test,0.8739,0.8733,64327.4972,0.129,104088.2866,"Removing top 1%, no normalization."
+4,RandomForestRegressor,train,0.9806,0.9806,19934.893,0.0458,29386.2798,"Removing top 5%, no normalization."
+5,RandomForestRegressor,test,0.8717,0.871,53038.5069,0.1212,76308.9748,"Removing top 5%, no normalization."
+6,XGBRegressor,train,0.9825,0.9825,35584.0027,0.0818,48751.1351,"Outliers flagging, no normalization."
+7,XGBRegressor,test,0.926,0.9256,59532.0485,0.1184,97798.9764,"Outliers flagging, no normalization."
+8,XGBRegressor,train,0.9679,0.9679,36410.9174,0.083,50584.7096,"Removing top 1%, no normalization."
+9,XGBRegressor,test,0.8891,0.8885,61265.8381,0.1234,97618.3705,"Removing top 1%, no normalization."
+10,XGBRegressor,train,0.9569,0.9568,32103.1211,0.0783,43810.9507,"Removing top 5%, no normalization."
+11,XGBRegressor,test,0.8806,0.88,51602.5277,0.1189,73599.338,"Removing top 5%, no normalization."

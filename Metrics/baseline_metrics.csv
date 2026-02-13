@@ -1,0 +1,9 @@
+Model,Split,R2,Adjusted_R2,MAE,MAPE,RMSE,Comments
+LinearRegression,train,0.6977,0.6974,125948.1118,0.2561,202864.5703,Baseline model
+LinearRegression,test,0.7162,0.7148,125985.6747,0.2596,191531.3335,Baseline model
+LinearRegression,train,0.6977,0.6974,125948.1118,0.2561,202864.5703,Normalized version of the baseline
+LinearRegression,test,0.6834,0.6819,137988.4158,0.2836,202287.1258,Normalized version of the baseline
+RandomForestRegressor,train,0.982,0.9819,25948.4444,0.0486,49547.1197,"Baseline, no normalization, random_state 13, default values."
+RandomForestRegressor,test,0.8959,0.8954,67269.877,0.1271,115994.2051,"Baseline, no normalization, random_state 13, default values."
+XGBRegressor,train,0.978,0.978,39126.7558,0.0872,54676.7727,"Baseline, no normalization, default values."
+XGBRegressor,test,0.9015,0.901,65712.7448,0.1246,112860.4995,"Baseline, no normalization, default values."
