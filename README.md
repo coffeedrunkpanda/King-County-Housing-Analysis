@@ -16,9 +16,9 @@
     - [4. Feature Selection](#4-feature-selection)
     - [5. Feature Engineering](#5-feature-engineering)
     - [6. Model Optimization](#6-model-optimization)
-      - [Random Forest (Best Model)](#random-forest-best-model)
-      - [XGBoost](#xgboost)
-      - [Gradient Boosting](#gradient-boosting)
+      - [Dataset versions:](#dataset-versions)
+      - [Model Comparison (Test Set Results)](#model-comparison-test-set-results)
+      - [**Best Model: Gradient Boosting**](#best-model-gradient-boosting)
   - [💡 Key Findings](#-key-findings)
   - [🛠️ Technologies Used](#️-technologies-used)
   - [Results Summary](#results-summary)
@@ -119,28 +119,36 @@ The project consists of 6 main notebooks executed sequentially:
   - XGBoost: Comparable performance to Random Forest
 
 ### 6. [Model Optimization](6_Model_Optimization.ipynb)
-Hyperparameter tuning using RandomizedSearchCV (50 iterations, 3-fold CV) on three advanced models:
+We performed hyperparameter tuning using RandomizedSearchCV (50 iterations, 3-fold CV) on three dataset versions.
 
-#### Random Forest (Best Model)
+#### Dataset versions: 
+- v1: Baseline clean dataset with outlier flags (quantiles 99 and 95).
+- v2: Feature selection over v1.
+- v3: Feature engineering over v2.
 
-- **Optimal Parameters**: max_depth=None, min_samples_split=5, min_samples_leaf=1, max_features='log2', bootstrap=True
-- **Performance**: R² 0.9792 (train), 0.9318 (test)
-- **Metrics**: MAE 61,500, RMSE 93,873, MAPE 12.6%
+#### Model Comparison (Test Set Results)
 
-#### XGBoost
-- **Optimal Parameters**: n_estimators=1000, max_depth=5, learning_rate=0.05, subsample=0.6, colsample_bytree=0.5
-- **Performance**: R² 0.9753 (train), 0.9358 (test)
-- **Metrics**: MAE 58,910, RMSE 91,103, MAPE 11.9%
+| Dataset Version    | Model             | Test R² | Test RMSE | Test MAPE |
+| ------------------ | ----------------- | ------- | --------- | --------- |
+| v1 (Outliers Only) | Gradient Boosting | 0.942   | 86,770    | 11.7%     |
+| v1 (Outliers Only) | XGBoost           | 0.937   | 90,537    | 11.6%     |
+| v2 (Feature Drop)  | Gradient Boosting | 0.937   | 90,424    | 11.9%     |
+| v2 (Feature Drop)  | XGBoost           | 0.936   | 91,140    | 11.7%     |
+| v3 (Feature Eng.)  | XGBoost           | 0.936   | 91,103    | 11.9%     |
+| v3 (Feature Eng.)  | Gradient Boosting | 0.935   | 91,838    | 12.4%     |
 
-#### Gradient Boosting
-- **Optimal Parameters**: n_estimators=200, max_depth=6, learning_rate=0.1, subsample=0.7
-- **Performance**: R² 0.9582 (train), 0.9347 (test)
-- **Metrics**: RMSE 91,838, MAPE 12.4%
+#### **Best Model: Gradient Boosting**
+- **Best parameters:** {'subsample': 0.8, 'n_estimators': 500, 'min_samples_split': 10, 'min_samples_leaf': 4, 'max_features': 'log2', 'max_depth': 5, 'learning_rate': 0.1}
+- **Performance:** R² 0.9752 (train), 0.9417 (test)
+- **Metrics:** MAE 57,844, RMSE 86,770, MAPE 11.7%
+- **Dataset:** v1
+
+> The complete Metrics are available in the Metrics folder for: [v1](./Metrics/v1_best_model.csv), [v2](./Metrics/v2_best_model.csv), [v3](./Metrics/v3_best_model.csv).
 
 ## 💡 Key Findings
 
 - **Most Important Features**: sqft_living, grade, waterfront, lat/long (location), sqft_above 
-- **Model Progression**: Improved from R² 0.70 (baseline linear) to 0.94 (optimized XGBoost/Random Forest)
+- **Model Progression**: Improved from R² 0.70 (baseline linear) to 0.94 (optimized Gradient Boosting/XGBoost/Random Forest)
 - **Outliers**: High-value properties (>$4M) were retained to preserve real-world data distribution
 - **Feature Engineering Impact**: Temporal features (Age_at_Sale, was_renovated) improved model interpretability
 
