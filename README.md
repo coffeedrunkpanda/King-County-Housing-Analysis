@@ -12,6 +12,7 @@
       - [Baseline Model Performance](#baseline-model-performance)
     - [2. Feature Importance Analysis](#2-feature-importance-analysis)
     - [3. Outliers Analysis](#3-outliers-analysis)
+      - [Outlier Strategy Comparison (Test Results)](#outlier-strategy-comparison-test-results)
     - [4. Feature Selection](#4-feature-selection)
     - [5. Feature Engineering](#5-feature-engineering)
     - [6. Model Optimization](#6-model-optimization)
@@ -74,10 +75,25 @@ The project consists of 6 main notebooks executed sequentially:
 - No features were immediately dropped based on regularization analysis
 
 ### 3. [Outliers Analysis](3_Outliers_Analysis.ipynb)
-- Identified 11 houses priced above $4M (max: $7.7M)
-- Quantile analysis: 99th percentile = $1.96M, 95th percentile = $1.15M
-- Created binary flags (q_99, q_95) to mark outlier observations
-- Outlier flagging showed better performance over outlier dropping.
+
+- Analysis: Identified 11 high-value properties priced above $4M (max: $7.7M).
+- Quantile Flagging: Established 99th ($1.96M) and 95th ($1.15M) percentile thresholds, creating binary flags (q_99, q_95) to **retain valuable data points**.
+- Performance: **Flagging** outliers yielded **superior model performance** compared to dropping them.
+- Leakage Study: Conducted a statistical analysis on data leakage from outlier flagging. **Result**: No significant performance difference was found between leaked and non-leaked methods;the original pipeline was retained for simplicity, noting the negligible impact.
+
+
+#### Outlier Strategy Comparison (Test Results)
+
+| Model | Strategy | Test R² | Test RMSE | Impact |
+|-------|----------|--------:|----------:|--------|
+| Random Forest | **Flagging Outliers** | **0.932** | **93,599** | Best Performance |
+| Random Forest | Dropping Top 1% | 0.874 | 104,088 | Significant drop in accuracy |
+| Random Forest | Dropping Top 5% | 0.872 | 76,309* | Lower RMSE due to smaller range |
+| XGBoost | **Flagging Outliers** | **0.926** | **97,799** | Strong performance |
+| XGBoost | Dropping Top 1% | 0.889 | 97,618 | Worse R² fit |
+| XGBoost | Dropping Top 5% | 0.881 | 73,599* | Worse R² fit |
+
+> Note: RMSE naturally decreases when dropping expensive houses (Top 5%) because the target range is smaller, but the R² (model fit) drops significantly, indicating worse predictive power.
 
 > The complete Metrics are available in the [link](./Metrics/outlier_analysis_metrics.csv).
 
